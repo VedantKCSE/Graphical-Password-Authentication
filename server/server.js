@@ -4,12 +4,11 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const cors = require('cors');
 
-// Replace with your actual database configuration
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'myappdb' // Use the name of the database you created
+    database: 'myappdb'
 });
 
 db.connect(err => {
@@ -17,18 +16,18 @@ db.connect(err => {
         console.error('Database connection error:', err);
     } else {
         console.log('Connected to the database');
+        console.log(' ');
+        console.log('<--------------------------->');
+        console.log(' ');
+        console.log('Authentication System Activated');
     }
 });
 
 app.use(cors());
 app.use(bodyParser.json());
 
-// Handle the signup request
 app.post('/signup', (req, res) => {
     const { email, password } = req.body;
-
-    // Perform the database INSERT operation here
-    // Insert the email and password into your SQL database
 
     const sql = 'INSERT INTO users (email, password) VALUES (?, ?)';
     db.query(sql, [email, password], (error, result) => {
@@ -41,12 +40,8 @@ app.post('/signup', (req, res) => {
     });
 });
 
-// Handle the signin request
 app.post('/signin', (req, res) => {
     const { email, password } = req.body;
-
-    // Perform the database SELECT operation here
-    // Retrieve the stored password for the provided email
 
     const sql = 'SELECT password FROM users WHERE email = ?';
     db.query(sql, [email], (error, results) => {
@@ -65,7 +60,9 @@ app.post('/signin', (req, res) => {
     });
 });
 
-const port = 3000; // Replace with your desired port
+const port = 3000;
 app.listen(port, () => {
+    console.log('<--------------------------->');
+    console.log(' ');
     console.log(`Server is running on port ${port}`);
 });
