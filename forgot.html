@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="resetPasswordModal">
+      <h2>Password Reset</h2>
+      <form id="resetPasswordForm">
+        <label for="resetEmail">Email:</label>
+        <input type="email" id="resetEmail" required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const resetEmailInput = document.getElementById("resetEmail");
+      const resetPasswordForm = document.getElementById("resetPasswordForm");
+
+      // Submit the form when it's submitted
+      resetPasswordForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Add AJAX request to submit the email to the server
+        const email = resetEmailInput.value;
+        fetch("http://localhost:3000/forgot-password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              alert(
+                "Password reset email sent. Check your email for instructions."
+              );
+            } else {
+              alert("Error sending password reset email. Please try again.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error sending password reset email. Please try again.");
+          });
+      });
+    </script>
+  </body>
+</html>

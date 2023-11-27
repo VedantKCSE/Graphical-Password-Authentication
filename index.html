@@ -16,17 +16,11 @@
     type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
   ></script>
-  <script type="text/javascript">
-    (function () {
-      emailjs.init("epVHGFQIo-D_O1Zqw");
-    })();
-  </script>
   <body id="bg">
     <div class="container" id="container">
       <div class="form-container sign-up-container">
         <form action="#">
           <h1>Create Account</h1>
-          <span>or use your email for registration</span>
           <input type="text" placeholder="Name" id="name" />
           <input type="email" placeholder="Email" id="upmail" />
           <div class="password">
@@ -131,7 +125,7 @@
               <img src="images\24.png" alt="" class="patimg" />
             </div>
           </div>
-          <a onclick="sendMail2()">-----------</a>
+          <a href="./forgot.html" id="forgotPasswordLink">Forgot Password?</a>
           <button onclick="signin()">Sign In</button>
         </form>
       </div>
