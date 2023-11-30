@@ -7,6 +7,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const crypto = require("crypto");
+const bcrypt = require("bcrypt"); 
 
 app.use(
   session({
@@ -42,11 +43,57 @@ db.connect((err) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post("/signup", (req, res) => {
+// app.post("/signup", (req, res) => {
+//   const { name, email, password } = req.body;
+
+//   const sql = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
+//   db.query(sql, [email, password, name], (error, result) => {
+//     if (error) {
+//       console.error("Error while signing up:", error);
+//       res.json({ success: false });
+//     } else {
+//       res.json({ success: true });
+//     }
+//   });
+// });
+
+
+// app.post("/signin", (req, res) => {
+//   const { email, password } = req.body;
+
+//   const sql = "SELECT * FROM users WHERE email = ?";
+//   db.query(sql, [email], (error, results) => {
+//     if (error) {
+//       console.error("Error while signing in:", error);
+//       res.json({ success: false });
+//     } else {
+//       if (results.length === 1) {
+//         const user = results[0];
+//         const storedPassword = user.password;
+//         const success = storedPassword === password;
+
+//         if (success) {
+//           // Store user data in session
+//           req.session.user = user;
+//           res.json({ success: true });
+//         } else {
+//           res.json({ success: false });
+//         }
+//       } else {
+//         res.json({ success: false });
+//       }
+//     }
+//   });
+// });
+
+app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
 
+  // Hash the password before storing it
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const sql = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
-  db.query(sql, [email, password, name], (error, result) => {
+  db.query(sql, [email, hashedPassword, name], (error, result) => {
     if (error) {
       console.error("Error while signing up:", error);
       res.json({ success: false });
@@ -56,31 +103,11 @@ app.post("/signup", (req, res) => {
   });
 });
 
-// app.post('/signin', (req, res) => {
-//     const { email, password } = req.body;
-
-//     const sql = 'SELECT password FROM users WHERE email = ?';
-//     db.query(sql, [email], (error, results) => {
-//         if (error) {
-//             console.error('Error while signing in:', error);
-//             res.json({ success: false });
-//         } else {
-//             if (results.length === 1) {
-//                 const storedPassword = results[0].password;
-//                 const success = storedPassword === password;
-//                 res.json({ success });
-//             } else {
-//                 res.json({ success: false });
-//             }
-//         }
-//     });
-// });
-
 app.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
   const sql = "SELECT * FROM users WHERE email = ?";
-  db.query(sql, [email], (error, results) => {
+  db.query(sql, [email], async (error, results) => {
     if (error) {
       console.error("Error while signing in:", error);
       res.json({ success: false });
@@ -88,7 +115,7 @@ app.post("/signin", (req, res) => {
       if (results.length === 1) {
         const user = results[0];
         const storedPassword = user.password;
-        const success = storedPassword === password;
+        const success = await bcrypt.compare(password, storedPassword);
 
         if (success) {
           // Store user data in session
@@ -103,6 +130,7 @@ app.post("/signin", (req, res) => {
     }
   });
 });
+
 
 app.get("/dashboard", (req, res) => {
   console.log("Session Data:", req.session);
