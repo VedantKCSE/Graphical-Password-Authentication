@@ -79,6 +79,34 @@ function signup() {
 
 var v2 = new Boolean(false);
 
+// function signin() {
+//     const emailInput = document.getElementById('inmail').value;
+
+//     if (!emailRegex.test(emailInput)) {
+//         alert("Invalid email address");
+//         return;
+//     }
+
+//     fetch('http://localhost:3000/signin', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ email: emailInput, password: inpass.toString() })
+//     })
+//         .then(response => response.json())
+//         .then(result => {
+//             if (result.success) {
+//                 var myText = "Login is successful";
+//                 alert(myText);
+//                 NewTab();
+//             } else {
+//                 var myText = "Login Failed";
+//                 alert(myText);
+//             }
+//         });
+// }
+
 function signin() {
     const emailInput = document.getElementById('inmail').value;
 
@@ -94,18 +122,21 @@ function signin() {
         },
         body: JSON.stringify({ email: emailInput, password: inpass.toString() })
     })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
+        .then(response => {
+            if (response.ok) {
                 var myText = "Login is successful";
                 alert(myText);
-                NewTab();
+                // Redirect to the dashboard
+                window.location.href = './Landing Page/index.html';
             } else {
                 var myText = "Login Failed";
                 alert(myText);
             }
-        });
+        })
+        .catch(error => console.error('Error during sign-in:', error));
 }
+
+
 
 function resetPassword() {
     const emailInput = document.getElementById('resetEmail').value;

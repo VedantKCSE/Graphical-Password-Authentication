@@ -2,17 +2,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Add necessary meta tags, title, and CSS links here -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./css/reset.css">
+      <link
+      rel="stylesheet"
+      type="text/css"
+      href="../index.css">
 </head>
 <body>
     <div class="reset-container">
         <h1>Reset Password</h1>
         <input type="email" placeholder="Email" id="resetEmail" />
-        <input type="password" placeholder="New Password" id="resetPassword" />
-        <input type="password" placeholder="Confirm Password" id="confirmPassword" />
-        <input type="text" id="resetToken" value="" />
+        <!-- <input type="password" placeholder="New Password" id="resetPassword" />
+        <input type="password" placeholder="Confirm Password" id="confirmPassword" /> -->
+        <div class="password">
+            <div class="passimg" onclick="upimg(this)" id="s01">
+              <img src="../images/10.gif" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s02">
+              <img src="../images/11.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s03">
+              <img src="../images/12.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s04">
+              <img src="../images/13.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s05">
+              <img src="../images/14.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s06">
+              <img src="../images/15.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s07">
+              <img src="../images/16.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s08">
+              <img src="../images/17.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s09">
+              <img src="../images/18.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s10">
+              <img src="../images/19.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s11">
+              <img src="../images/20.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s12">
+              <img src="../images/21.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s13">
+              <img src="../images/22.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s14">
+              <img src="../images/23.png" alt="" class="patimg" />
+            </div>
+            <div class="passimg" onclick="upimg(this)" id="s15">
+              <img src="../images/24.png" alt="" class="patimg" />
+            </div>
+          </div>
+        <input type="text" id="resetToken" placeholder="Token"/>
         <button onclick="resetPassword()">Reset Password</button>
     </div>
     <script src="./reset.js"></script>
+    <!-- <script src="../main.js"></script> -->
 </body>
 </html>

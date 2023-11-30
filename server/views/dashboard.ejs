@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Dashboard</title>
+    <link rel="stylesheet" href="/styles/dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <% if (user) { %>
+            <h1>Welcome, <%= user.name ?? 'User' %>!</h1>
+            <p>Email: <%= user.email ?? 'N/A' %></p>
+            <p>Reset Token: <%= user.reset_token ?? 'N/A' %></p>
+            <form action="/forgot-password" method="POST">
+                <button type="submit">Reset Password</button>
+            </form>
+            <form action="/signout" method="POST">
+                <button type="submit">Sign Out</button>
+            </form>
+        <% } else { %>
+            <p>User data not available</p>
+        <% } %>
+    </div>
+</body>
+</html>
