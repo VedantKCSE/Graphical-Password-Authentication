@@ -43,49 +43,6 @@ db.connect((err) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-// app.post("/signup", (req, res) => {
-//   const { name, email, password } = req.body;
-
-//   const sql = "INSERT INTO users (email, password, name) VALUES (?, ?, ?)";
-//   db.query(sql, [email, password, name], (error, result) => {
-//     if (error) {
-//       console.error("Error while signing up:", error);
-//       res.json({ success: false });
-//     } else {
-//       res.json({ success: true });
-//     }
-//   });
-// });
-
-
-// app.post("/signin", (req, res) => {
-//   const { email, password } = req.body;
-
-//   const sql = "SELECT * FROM users WHERE email = ?";
-//   db.query(sql, [email], (error, results) => {
-//     if (error) {
-//       console.error("Error while signing in:", error);
-//       res.json({ success: false });
-//     } else {
-//       if (results.length === 1) {
-//         const user = results[0];
-//         const storedPassword = user.password;
-//         const success = storedPassword === password;
-
-//         if (success) {
-//           // Store user data in session
-//           req.session.user = user;
-//           res.json({ success: true });
-//         } else {
-//           res.json({ success: false });
-//         }
-//       } else {
-//         res.json({ success: false });
-//       }
-//     }
-//   });
-// });
-
 app.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -191,24 +148,60 @@ app.post("/forgot-password", (req, res) => {
 
 // ... (existing code)
 
-app.post("/reset-password", (req, res) => {
+// app.post("/reset-password", (req, res) => {
+//   const { email, password, token } = req.body;
+
+//   // Verify the token against the stored token in the database
+//   const verifyTokenSql =
+//     "SELECT * FROM users WHERE email = ? AND reset_token = ?";
+//   db.query(verifyTokenSql, [email, token], (error, results) => {
+//     if (error) {
+//       console.error("Error verifying reset token:", error);
+//       res.json({ success: false });
+//     } else {
+//       if (results.length === 1) {
+//         // Update the password and reset token in the database
+//         const updatePasswordSql =
+//           "UPDATE users SET password = ?, reset_token = NULL WHERE email = ?";
+//         db.query(
+//           updatePasswordSql,
+//           [password, email],
+//           (updateError, updateResult) => {
+//             if (updateError) {
+//               console.error("Error updating password:", updateError);
+//               res.json({ success: false });
+//             } else {
+//               res.json({ success: true });
+//             }
+//           }
+//         );
+//       } else {
+//         // Invalid token or email
+//         res.json({ success: false });
+//       }
+//     }
+//   });
+// });
+
+app.post("/reset-password", async (req, res) => {
   const { email, password, token } = req.body;
 
   // Verify the token against the stored token in the database
   const verifyTokenSql =
     "SELECT * FROM users WHERE email = ? AND reset_token = ?";
-  db.query(verifyTokenSql, [email, token], (error, results) => {
+  db.query(verifyTokenSql, [email, token], async (error, results) => {
     if (error) {
       console.error("Error verifying reset token:", error);
       res.json({ success: false });
     } else {
       if (results.length === 1) {
         // Update the password and reset token in the database
+        const hashedPassword = await bcrypt.hash(password, 10);
         const updatePasswordSql =
           "UPDATE users SET password = ?, reset_token = NULL WHERE email = ?";
         db.query(
           updatePasswordSql,
-          [password, email],
+          [hashedPassword, email],
           (updateError, updateResult) => {
             if (updateError) {
               console.error("Error updating password:", updateError);
